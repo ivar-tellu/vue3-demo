@@ -1,26 +1,46 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue';
+import Christmas from './components/1 Christmas.vue';
+import Example from './components/2 Example.vue';
+import Rects from './components/3 Rects.vue';
+import Slotted from './components/4 Slotted.vue';
+import DisabledButton from './components/5 Disabled button.vue';
+
+const showSimple = ref(false);
+const showExample1 = ref(false);
+const showRects = ref(false);
+const showSlotted = ref(false);
+const showDisabledButton = ref(false);
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="controls">
+    <label>show #1<input type="checkbox" v-model="showSimple"></label>
+    <label>show #2<input type="checkbox" v-model="showExample1"></label>
+    <label>show rects<input type="checkbox" v-model="showRects"></label>
+    <label v-if="false">show slots<input type="checkbox" v-model="showSlotted"></label>
+    <label v-if="false">show attribute<input type="checkbox" v-model="showDisabledButton"></label>
+  </div>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <!-- Components are used without putting them into a "components:" array. -->
+  <Christmas v-if="showSimple" />
+  <Example v-if=showExample1 :emojis="['🐕', '🐻', '🐊', '🐻‍❄️', '🐼']" />
+  <Rects v-if="showRects" />
+  <Slotted v-if="showSlotted">
+    <template #slot><div>&lt;div&gt; inside the slot</div></template>
+  </Slotted>
+  <DisabledButton v-if="showDisabledButton" />
 </template>
 
 <style scoped>
+.controls {
+  left: 0;
+  top: 0;
+  position: fixed;
+}
+.controls label {
+  display: block;
+}
 header {
   line-height: 1.5;
   max-height: 100vh;
